@@ -1,0 +1,7 @@
+Changes
+ChartHist.pm
+Makefile.PL
+MANIFEST
+README
+t/charthist.t
+t/private.t
