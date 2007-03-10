@@ -29,8 +29,8 @@ ok($c->create_chart());
 ##
 ## Check that we create the file
 ##
-$c->save_chart('test');
-ok(-e 'test.png');
+$c->save_chart('test5_chart.png', 'png');
+ok(-e 'test5_chart.png');
 
 ##
 ## Test the various required parameters
@@ -55,7 +55,7 @@ ok($@ =~ m/Must provide end_date/);
 
 
 ## Testing multiple symbols
-$c = Finance::ChartHist->new( symbols    => [qw(BHP PIXR)],
+$c = Finance::ChartHist->new( symbols    => [qw(MSFT AAPL)],
                               start_date => '2002-01-01',
                               end_date   => '2002-02-01',
                               width      => 680,
@@ -66,5 +66,6 @@ ok(defined($c) and ref $c eq 'Finance::ChartHist');
 ## Create the chart with multiple symbols
 ok($c->create_chart);
 
-$c->save_chart('multiple');
+$c->save_chart('multiple.png', 'png');
 ok(-e 'multiple.png');
+

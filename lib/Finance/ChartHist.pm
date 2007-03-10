@@ -16,7 +16,7 @@ Finance::ChartHist - Perl module to produce historical stock price graphs
                                   );
 
   $chart->create_chart();
-  $chart->save_chart('chart_name');
+  $chart->save_chart('chart_name.png', 'png');
 
 =cut
 
@@ -51,7 +51,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 	
 );
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 sub new
@@ -110,16 +110,15 @@ sub create_chart
 sub save_chart
 {
 	my $self = shift;
-	my $name = shift or croak "Need a name!";
+	my $name = shift or croak "Need filename!";
+	my $format = shift or croak "Need file format!";
 	my $graph = $self->{graph};
 	local(*OUT);
 
-	my $ext = $graph->export_format;
-
-	open(OUT, ">$name.$ext") or 
-		die "Cannot open $name.$ext for write: $!";
+	open(OUT, ">$name") or 
+		die "Cannot open $name for write: $!";
 	binmode OUT;
-	print OUT $graph->gd->$ext();
+	print OUT $graph->gd->$format();
 	close OUT;
 }
 
@@ -140,7 +139,7 @@ sub _get_graph_data
                                     );
                                     
 
-  foreach my $row ($quote->quote_get()) {
+  foreach my $row ($quote->quotes()) {
     my ($symbol, $date, $open, $high, $low, $close, $volume) = @$row;
     push @{ $graph_data{$symbol}[0] }, $date;
     push @{ $graph_data{$symbol}[1] }, $close;
